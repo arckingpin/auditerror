@@ -16,9 +16,10 @@ from PIL import Image  # ✅ For image compression
 st.set_page_config(page_title="Auditor Error Logger", layout="centered")
 
 # --- CONFIGURATION ---
+SCOPES = ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/spreadsheets']
 service_account_info = json.loads(st.secrets["GOOGLE_SERVICE_ACCOUNT"])
 credentials = service_account.Credentials.from_service_account_info(service_account_info, scopes=SCOPES)
-SCOPES = ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/spreadsheets']
+
 
 FOLDER_ID = '17-Ar-v76PqqtSGYF3L92zCesW2HaYeQC'
 SPREADSHEET_ID = '1GmS-3ZjpKcUgyntzBTS0Wss3fAL2xJ2gBh8s14mZg5M'
