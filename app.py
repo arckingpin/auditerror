@@ -3,6 +3,8 @@ import pandas as pd
 from datetime import datetime
 import io
 import traceback
+import json
+import tempfile
 
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -14,7 +16,8 @@ from PIL import Image  # ✅ For image compression
 st.set_page_config(page_title="Auditor Error Logger", layout="centered")
 
 # --- CONFIGURATION ---
-SERVICE_ACCOUNT_FILE = 'clear-vision-462811-b3-f6ed4eb6583a.json'
+service_account_info = json.loads(st.secrets["GOOGLE_SERVICE_ACCOUNT"])
+credentials = service_account.Credentials.from_service_account_info(service_account_info, scopes=SCOPES)
 SCOPES = ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/spreadsheets']
 
 FOLDER_ID = '17-Ar-v76PqqtSGYF3L92zCesW2HaYeQC'
