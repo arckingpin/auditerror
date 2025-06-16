@@ -7,6 +7,10 @@ import json
 import tempfile
 
 from google.oauth2 import service_account
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["GOOGLE_SERVICE_ACCOUNT"],  # No json.loads needed
+    scopes=SCOPES
+)
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 import gspread
