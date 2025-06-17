@@ -77,32 +77,35 @@ with st.form("error_form"):
     submitted = st.form_submit_button("✅ Submit Entry")
 
 if submitted:
-    with st.spinner("⏳ Please wait while we submit your entry..."):
-        now = datetime.now().strftime("%d-%m-%Y %H:%M")
-        screenshot_link = ""
+    if not auditor or not file_no or not error_desc:
+        st.warning("⚠️ Please fill in all required fields: Auditor Name, File No, and Error Description.")
+    else:
+        with st.spinner("⏳ Please wait while we submit your entry..."):
+            now = datetime.now().strftime("%d-%m-%Y %H:%M")
+            screenshot_link = ""
 
-        if screenshot and file_no:
-            filename = f"{file_no} {now.split()[0]}.jpg"
-            file_id = upload_to_drive(screenshot, filename)
-            if file_id:
-                screenshot_link = f"https://drive.google.com/file/d/{file_id}/view?usp=sharing"
+            if screenshot and file_no:
+                filename = f"{file_no} {now.split()[0]}.jpg"
+                file_id = upload_to_drive(screenshot, filename)
+                if file_id:
+                    screenshot_link = f"https://drive.google.com/file/d/{file_id}/view?usp=sharing"
 
-        headers = ["DateTime", "Auditor", "File No", "Error Description", "Screenshot Link"]
-        values = worksheet.get_all_values()
-        if not values or values[0] != headers:
-            worksheet.insert_row(headers, 1)
+            headers = ["DateTime", "Auditor", "File No", "Error Description", "Screenshot Link"]
+            values = worksheet.get_all_values()
+            if not values or values[0] != headers:
+                worksheet.insert_row(headers, 1)
 
-        worksheet.append_row([
-            now,
-            auditor,
-            file_no,
-            error_desc,
-            screenshot_link
-        ])
+            worksheet.append_row([
+                now,
+                auditor,
+                file_no,
+                error_desc,
+                screenshot_link
+            ])
 
-    st.success("✅ Entry submitted successfully!")
-    if screenshot_link:
-        st.markdown(f"[📌 View Screenshot]({screenshot_link})")
+        st.success("✅ Entry submitted successfully!")
+        if screenshot_link:
+            st.markdown(f"[📌 View Screenshot]({screenshot_link})")
 
 # --- FOOTER ---
 st.markdown("---")
